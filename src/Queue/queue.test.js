@@ -17,6 +17,7 @@ describe('Queue', () => {
       queue.push({ id: 2 });
       expect(queue.length).toBe(2);
       expect(queue.head.data).toEqual({ id: 1 });
+      expect(queue.head.next).toHaveProperty('data', { id: 2 });
       expect(queue.tail.data).toEqual({ id: 2 });
     });
 
@@ -26,6 +27,7 @@ describe('Queue', () => {
       queue.unshift({ id: 2 });
       expect(queue.length).toBe(2);
       expect(queue.head.data).toEqual({ id: 2 });
+      expect(queue.head.next).toHaveProperty('data', { id: 1 });
       expect(queue.tail.data).toEqual({ id: 1 });
     });
 
@@ -33,9 +35,8 @@ describe('Queue', () => {
       const queue = new Queue();
       queue.push({ id: 1 });
       queue.push({ id: 2 });
-      queue.push({ id: 3 });
-      queue.pop();
-      expect(queue.length).toBe(2);
+      expect(queue.pop()).toEqual({ id: 2 })
+      expect(queue.length).toBe(1);
       expect(queue.head.data).toEqual({ id: 1 });
     });
 
@@ -44,7 +45,7 @@ describe('Queue', () => {
       queue.push({ id: 1 });
       queue.push({ id: 2 });
       queue.push({ id: 3 });
-      queue.shift();
+      expect(queue.shift()).toEqual({ id: 1 })
       expect(queue.length).toBe(2);
       expect(queue.head.data).toEqual({ id: 2 });
     });

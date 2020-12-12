@@ -14,87 +14,68 @@ describe('PriorityQueue', () => {
 
   describe('methods', () => {
     describe('.add method', () => {
-      it('should add an element in queue depending on its priority', () => {
+      it('should add an element with lower priority key to the head of queue', () => {
+        const pQueue = new PriorityQueue();
+        pQueue.add(2, { id: 2 });
+        pQueue.add(1, { id: 1 });
+        expect(pQueue.head.data).toEqual({ id: 1 });
+        expect(pQueue.head.next.data).toEqual({ id: 2 });
+      });
+
+      it('should add an element with priority before the element with same priority', () => {
         const pQueue = new PriorityQueue();
         pQueue.add(1, { id: 1 });
-        pQueue.add(2, { id: 2 });
-        expect(pQueue.getMax()).toEqual({ id: 2 });
+        pQueue.add(1, { id: 2 });
+        expect(pQueue.head.data).toEqual({ id: 2 });
+        expect(pQueue.head.next.data).toEqual({ id: 1 });
+      });
+
+      it('should throw an error if priority is not a number type', () => {
+        const pQueue = new PriorityQueue();
+        expect(pQueue.add('top', { id: 1 })).toThrow('You can not provide priority of type not a number');
       });
     });
 
     describe('.push method', () => {
-      it('should add an element in queue depending on its priority', () => {
+      it('should add an element with lower priority key to the head of queue', () => {
         const pQueue = new PriorityQueue();
-        pQueue.push({ id: 1 }, 1);
         pQueue.push({ id: 2 }, 2);
-        expect(pQueue.getMax()).toEqual({ id: 2 });
+        pQueue.push({ id: 1 }, 1);
+        expect(pQueue.head.data).toEqual({ id: 1 });
+        expect(pQueue.head.next.data).toEqual({ id: 2 });
       });
     });
 
     describe('.unshift method', () => {
-      it('should add an element in queue depending on its priority', () => {
+      it('should add an element with lower priority key to the head of queue', () => {
         const pQueue = new PriorityQueue();
-        pQueue.push({ id: 1 }, 1);
         pQueue.unshift({ id: 2 }, 2);
-        expect(pQueue.getMax()).toEqual({ id: 2 });
+        pQueue.unshift({ id: 1 }, 1);
+        expect(pQueue.head.data).toEqual({ id: 1 });
+        expect(pQueue.head.next.data).toEqual({ id: 2 });
       });
     });
 
     describe('.getMax method', () => {
-      it('should return an element with MAX priority', () => {
+      it('should take an element from queue with MAX priority', () => {
         const pQueue = new PriorityQueue();
-        pQueue.push({ id: 1 }, 1);
-        pQueue.push({ id: 5 }, 5);
-        pQueue.push({ id: 2 }, 2);
+        pQueue.add(1, { id: 1 });
+        pQueue.add(5, { id: 5 });
+        pQueue.add(2, { id: 2 });
         expect(pQueue.getMax()).toEqual({ id: 5 });
-      });
-
-      it('should not change queue length after call', () => {
-        const pQueue = new PriorityQueue();
-        pQueue.push({ id: 1 }, 1);
-        pQueue.push({ id: 2 }, 2);
-        pQueue.push({ id: 3 }, 3);
-        pQueue.getMax();
-        expect(pQueue.length).toEqual(3);
+        expect(pQueue.length).toBe(2);
       });
     });
 
     describe('.getMin method', () => {
-      it('should return an element with MIN priority', () => {
+      it('should take an element from queue with MIN priority', () => {
         const pQueue = new PriorityQueue();
-        pQueue.push({ id: 1 }, 1);
-        pQueue.push({ id: 5 }, 5);
-        pQueue.push({ id: 2 }, 2);
+        pQueue.add(1, { id: 1 });
+        pQueue.add(5, { id: 5 });
+        pQueue.add(2, { id: 2 });
         expect(pQueue.getMin()).toEqual({ id: 1 });
-      });
-
-      it('should not change queue length after call', () => {
-        const pQueue = new PriorityQueue();
-        pQueue.push({ id: 1 }, 1);
-        pQueue.push({ id: 2 }, 2);
-        pQueue.push({ id: 3 }, 3);
-        pQueue.getMin();
-        expect(pQueue.length).toEqual(3);
+        expect(pQueue.length).toBe(2);
       });
     });
-
-    it('should give to last element lower priority even if it has the same priority as element with MAX priority', () => {
-      const pQueue = new PriorityQueue();
-      pQueue.push({ id: 1 }, 1);
-      pQueue.push({ id: 2 }, 2);
-      pQueue.push({ id: 3 }, 2);
-      expect(pQueue.getMax()).toEqual({ id: 2 });
-    });
   });
-
-  describe('queue element params', () => {
-    describe('priority', () => {
-      it('should be a number type value', () => {
-        const pQueue = new PriorityQueue();
-        pQueue.push({ id: 1 }, '1');
-        expect(typeof pQueue.tail.priority).toBe('number');
-      })
-    })
-  });
-
 });

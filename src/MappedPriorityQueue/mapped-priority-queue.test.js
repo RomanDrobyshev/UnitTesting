@@ -15,37 +15,20 @@ describe('MappedPriorityQueue', () => {
 
   describe('methods', () => {
     describe('.add method', () => {
-      it('should add an element in queue depending on its priority', () => {
+      it('should throw an error if priority is not a number type', () => {
         const mpQueue = new MappedPriorityQueue();
-        mpQueue.add(1, { id: 1 });
-        mpQueue.add(2, { id: 2 });
-        expect(mpQueue.getMax()).toEqual({ id: 2 });
+        expect(mpQueue.add('top', { id: 1, name: 'Ivan' })).toThrow('You can not provide priority of type not a number');
       });
 
-      it('should not add element without id', () => {
+      it('should throw an error if an element without id is added', () => {
         const mpQueue = new MappedPriorityQueue();
-        mpQueue.add(1, { name: 'Ivan' });
-        expect(mpQueue.map[undefined]).toBeUndefined();
+        expect(mpQueue.add(1, { name: 'Ivan' })).toThrow('You can not provide an element without id');
       });
 
-      it('should not add undefined element', () => {
-        try {
-          const mpQueue = new MappedPriorityQueue();
-          mpQueue.add(1, undefined);
-        } catch (e) {
-          expect(e.name).not.toBe('TypeError');
-          expect(e.message).not.toBe('Cannot read property \'id\' of undefined');
-        }
-      });
-
-      it('should not add null element', () => {
-        try {
-          const mpQueue = new MappedPriorityQueue();
-          mpQueue.add(1, null);
-        } catch (e) {
-          expect(e.name).not.toBe('TypeError');
-          expect(e.message).not.toBe('Cannot read property \'id\' of undefined');
-        }
+      it('should add an element to queue map field', () => {
+        const mpQueue = new MappedPriorityQueue();
+        mpQueue.add(0, { id: 1 });
+        expect(mpQueue).toHaveProperty('map', { 1: { id: 1 } });
       });
     });
 
@@ -56,7 +39,7 @@ describe('MappedPriorityQueue', () => {
         mpQueue.add(0, { id: 2 });
         mpQueue.pop();
         expect(mpQueue.length).toBe(1);
-        expect(mpQueue.getMax()).toEqual({ id: 2 });
+        expect(mpQueue).toHaveProperty('map', { 2: { id: 2 } });
       });
     });
 
@@ -67,12 +50,12 @@ describe('MappedPriorityQueue', () => {
         mpQueue.add(0, { id: 2 });
         mpQueue.shift();
         expect(mpQueue.length).toBe(1);
-        expect(mpQueue.getMax()).toEqual({ id: 1 });
+        expect(mpQueue).toHaveProperty('map', { 1: { id: 1 } });
       });
     });
 
     describe('.getById method', () => {
-      it('should get an element by its id', () => {
+      it('should return an element by requested id', () => {
         const mpQueue = new MappedPriorityQueue();
         mpQueue.add(0, { id: 1 });
         mpQueue.add(0, { id: 2 });
@@ -86,7 +69,9 @@ describe('MappedPriorityQueue', () => {
         mpQueue.add(0, { id: 1 });
         mpQueue.add(0, { id: 2 });
         mpQueue.removeById(1);
-        expect(mpQueue.map[1]).not.toEqual({ id: 1 });
+        expect(mpQueue.length).toBe(1);
+        expect(mpQueue.head).toHaveProperty('next', null);
+        expect(mpQueue).not.toHaveProperty('map', { 1: { id: 1 } });
       });
     });
 
@@ -94,12 +79,9 @@ describe('MappedPriorityQueue', () => {
       it('should return true if element exists in queue and false if not exists', () => {
         const mpQueue = new MappedPriorityQueue();
         mpQueue.add(0, { id: 1 });
-        mpQueue.add(0, { id: 2 });
         expect(mpQueue.has(1)).toBe(true);
-        expect(mpQueue.has(2)).toBe(true);
-        expect(mpQueue.has(3)).toBe(false);
+        expect(mpQueue.has(2)).toBe(false);
       });
     });
   });
-
 });
