@@ -33,7 +33,7 @@ describe('PriorityQueue', () => {
         expect(pQueue.head.data).toEqual({ id: 1 });
         expect(pQueue.head.next.data).toEqual({ id: 2 });
         expect(pQueue.tail.data).toEqual({ id: 2 });
-        expect(pQueue.add(3, { id: 3 })).toBe(2);
+        expect(pQueue.add(3, { id: 3 })).toBe(3);
       });
 
       it('should add an element with priority before the element with same priority', () => {
@@ -42,7 +42,7 @@ describe('PriorityQueue', () => {
         expect(pQueue.length).toBe(2);
         expect(pQueue.head.data).toEqual({ id: 2 });
         expect(pQueue.head.next.data).toEqual({ id: 1 });
-        expect(pQueue.add(3, { id: 3 })).toBe(2);
+        expect(pQueue.add(3, { id: 3 })).toBe(3);
       });
     });
 
@@ -53,7 +53,7 @@ describe('PriorityQueue', () => {
         expect(pQueue.length).toBe(2);
         expect(pQueue.head.data).toEqual({ id: 1 });
         expect(pQueue.head.next.data).toEqual({ id: 2 });
-        expect(pQueue.push({ id: 3 }, 3)).toBe(2);
+        expect(pQueue.push({ id: 3 }, 3)).toBe(3);
       });
     });
 
@@ -64,7 +64,7 @@ describe('PriorityQueue', () => {
         expect(pQueue.length).toBe(2);
         expect(pQueue.head.data).toEqual({ id: 1 });
         expect(pQueue.head.next.data).toEqual({ id: 2 });
-        expect(pQueue.unshift({ id: 3 }, 3)).toBe(2);
+        expect(pQueue.unshift({ id: 3 }, 3)).toBe(3);
       });
     });
 

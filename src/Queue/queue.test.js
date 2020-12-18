@@ -22,7 +22,7 @@ describe('Queue', () => {
       expect(queue.head.data).toEqual({ id: 2 });
       expect(queue.head.next).toHaveProperty('data', { id: 1 });
       expect(queue.tail.data).toEqual({ id: 1 });
-      expect(queue.unshift({ id: 3 })).toBe(2);
+      expect(queue.unshift({ id: 3 })).toBe(3);
     });
 
     it('should add element to end of the queue', () => {
@@ -32,7 +32,7 @@ describe('Queue', () => {
       expect(queue.head.data).toEqual({ id: 1 });
       expect(queue.head.next).toHaveProperty('data', { id: 2 });
       expect(queue.tail.data).toEqual({ id: 2 });
-      expect(queue.push({ id: 3 })).toBe(2);
+      expect(queue.push({ id: 3 })).toBe(3);
     });
 
     describe('.pop() method', () => {

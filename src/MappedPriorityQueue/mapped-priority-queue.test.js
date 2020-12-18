@@ -69,16 +69,16 @@ describe('MappedPriorityQueue', () => {
     });
 
     describe('.getById method', () => {
-      it('should return an element by requested id', () => {
+      beforeEach(() => {
         mpQueue.add(0, { id: 1 });
         mpQueue.add(0, { id: 2 });
+      });
+      it('should return an element by requested id', () => {
         expect(mpQueue.getById(1)).toEqual({ id: 1 });
         expect(mpQueue.length).toBe(2);
       });
 
       it('should return "undefined" if an element with requested id is absent', () => {
-        mpQueue.add(0, { id: 1 });
-        mpQueue.add(0, { id: 2 });
         expect(mpQueue.getById(777)).toBe(undefined);
         expect(mpQueue.length).toBe(2);
       });
@@ -89,9 +89,11 @@ describe('MappedPriorityQueue', () => {
     });
 
     describe('.removeById method', () => {
-      it('should remove an element from queue by its id', () => {
+      beforeEach(() => {
         mpQueue.add(0, { id: 1 });
         mpQueue.add(0, { id: 2 });
+      });
+      it('should remove an element from queue by its id', () => {
         mpQueue.removeById(1);
         expect(mpQueue.length).toBe(1);
         expect(mpQueue.head).toHaveProperty('next', null);
@@ -99,8 +101,6 @@ describe('MappedPriorityQueue', () => {
       });
 
       it('should return "undefined" if an element with requested id is absent', () => {
-        mpQueue.add(0, { id: 1 });
-        mpQueue.add(0, { id: 2 });
         expect(mpQueue.removeById(777)).toBe(undefined);
         expect(mpQueue.length).toBe(2);
       });
@@ -111,13 +111,14 @@ describe('MappedPriorityQueue', () => {
     });
 
     describe('.has method', () => {
-      it('should return true if element exists in queue', () => {
+      beforeEach(() => {
         mpQueue.add(0, { id: 1 });
+      });
+      it('should return true if element exists in queue', () => {
         expect(mpQueue.has(1)).toBe(true);
       });
 
       it('should return false if element exists in queue', () => {
-        mpQueue.add(0, { id: 1 });
         expect(mpQueue.has(2)).toBe(false);
       });
 
